@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: simple-yatra-svc
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+  security:
+    user:
+      name: sa
+      password: sa
+
+server:
+  port: 9091
