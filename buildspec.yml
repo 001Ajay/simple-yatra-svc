@@ -8,21 +8,21 @@ env:
 phases:
   install:
     runtime-versions:
-      python: 3.11
+      java: corretto8
   pre_build:
     commands:
-      - echo "Installing dependencies..."
-      - pip install -r requirements.txt
+      - echo "Pre-build phase..."
   build:
     commands:
-      - echo "Running tests..."
+      - echo Build started on `date`
+      - mvn clean package
       - echo "Building Docker image..."
       - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
       - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-yatra-svc:latest" .
       - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-yatra-svc:latest"
   post_build:
     commands:
-      - echo "Build completed successfully!"
+      - echo "Build on `date` completed successfully!"
 artifacts:
   files:
-    - '**/*'
+    - target/simple-yatra-svc-0.0.1-SNAPSHOT.jar
