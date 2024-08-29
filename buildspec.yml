@@ -16,11 +16,11 @@ phases:
   pre_build:
     commands:
       - echo "Logging in to Docker Hub..."
-      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
+      - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
 
   build:
     commands:
-      - echo "Maven Build started on `date` ..."
+      - echo "Building the Maven project..."
       - mvn clean package -DskipTests
       - echo "Building Docker image..."
       - docker build -t $DOCKERHUB_REPO_NAME:latest .
