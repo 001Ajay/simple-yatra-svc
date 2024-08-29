@@ -1,37 +1,35 @@
 version: 0.2
 
 env:
-  parameter-store:
-    DOCKER_REGISTRY_USERNAME: /cloud-cicd/docker-credentials/username
-    DOCKER_REGISTRY_PASSWORD: /cloud-cicd/docker-credentials/password
-    DOCKER_REGISTRY_URL: /cloud-cicd/docker-registry/url
+  secrets-manager:
+    DOCKERHUB_REPO_NAME: "dockerhub-repo-name"
+    DOCKERHUB_USERNAME: "aws-secret-manager-dockerhub-username-key"
+    DOCKERHUB_PASSWORD: "aws-secret-manager-dockerhub-password-key"
 phases:
   install:
     runtime-versions:
       java: corretto17
-      commands:
-#        - echo Installing Maven...
-        - curl -sL https://raw.githubusercontent.com/carlossg/docker-maven/master/mvn-entrypoint.sh > mvn-entrypoint.sh
-        - chmod +x mvn-entrypoint.sh
-        - ./mvn-entrypoint.sh
+      docker: 20
+    commands:
+      - echo "Installing Maven and Docker"
+
   pre_build:
     commands:
-      - echo Entered the pre-build phase...
+      - echo "Logging in to Docker Hub..."
+      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
 
   build:
     commands:
-      - echo Build started on `date`
-      - echo Building the Maven package...
+      - echo "Maven Build started on `date` ..."
       - mvn clean package -DskipTests
+      - echo "Building Docker image..."
+      - docker build -t $DOCKERHUB_REPO_NAME:latest .
 
   post_build:
     commands:
-      - echo "Build on `date` completed successfully!"
-      - echo "Building Docker image..."
-      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-yatra-svc:latest" .
-      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-yatra-svc:latest"
-      - echo "Docker image pushed to repo..."
+      - echo "Pushing the Docker image to Docker Hub..."
+      - docker push $DOCKERHUB_REPO_NAME:latest
+      - echo "Build and push completed successfully."
 
 artifacts:
   files:
