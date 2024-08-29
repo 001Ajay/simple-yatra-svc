@@ -1,10 +1,10 @@
 version: 0.2
 
 env:
-  secrets-manager:
-    DOCKERHUB_REPO_NAME: "dockerhub-repo-name"
-    DOCKERHUB_USERNAME: "aws-secret-manager-dockerhub-username-key"
-    DOCKERHUB_PASSWORD: "aws-secret-manager-dockerhub-password-key"
+  parameter-store:
+    DOCKERHUB_REPO_NAME: "/cloud-cicd/docker-registry/url"
+    DOCKERHUB_USERNAME: "/cloud-cicd/docker-credentials/username"
+    DOCKERHUB_PASSWORD: "/cloud-cicd/docker-credentials/password"
 phases:
   install:
     runtime-versions:
