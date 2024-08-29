@@ -11,18 +11,25 @@ phases:
       java: corretto8
   pre_build:
     commands:
-      - echo "Pre-build phase..."
+      - echo Entered the install phase...
+      - apt-get update -y
+      - apt-get install -y maven
   build:
     commands:
       - echo Build started on `date`
-      - mvn clean package
+      - mvn package
+
+  post_build:
+    commands:
       - echo "Building Docker image..."
       - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
       - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-yatra-svc:latest" .
       - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-yatra-svc:latest"
-  post_build:
-    commands:
       - echo "Build on `date` completed successfully!"
 artifacts:
   files:
     - target/simple-yatra-svc-0.0.1-SNAPSHOT.jar
+
+cache:
+  paths:
+    - '/root/.m2/**/*'
