@@ -10,7 +10,7 @@ phases:
     runtime-versions:
       java: corretto17
       commands:
-        - echo Installing Maven...
+#        - echo Installing Maven...
         - curl -sL https://raw.githubusercontent.com/carlossg/docker-maven/master/mvn-entrypoint.sh > mvn-entrypoint.sh
         - chmod +x mvn-entrypoint.sh
         - ./mvn-entrypoint.sh
