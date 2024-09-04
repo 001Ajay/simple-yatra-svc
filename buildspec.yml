@@ -10,11 +10,13 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
-      - echo "Installing Maven and Docker"
+      - echo "Setting up the environment..."
+      - java --version
+      - mvn --version
+      - docker --version
 
   pre_build:
     commands:
-      - docker --version
       - echo "Logging in to Docker Hub..."
       - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
 
