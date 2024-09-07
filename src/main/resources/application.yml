@@ -8,6 +8,14 @@ spring:
     user:
       name: sa
       password: sa
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
 
 server:
   port: 9091
