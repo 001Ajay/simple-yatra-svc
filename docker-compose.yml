@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  postgres:
+    image: "postgres:13.1-alpine"
+    container_name: postgres-db-server
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: sydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - simple-yatra-app-network
+
+  simple-yatra-svc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: simple-yatra-server
+    ports:
+      - "9091:9091"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/sydb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    networks:
+      - simple-yatra-app-network
+
+networks:
+  simple-yatra-app-network:
+
+volumes:
+  postgres_data:

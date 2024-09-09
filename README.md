@@ -1,6 +1,17 @@
 # Simple Yatra Application - Backend Service
 
 
+## How to Build and Start Application
+
+Build :
+```
+mvn clean package install 
+```
+
+Start locally:
+```
+docker-compose up --build
+```
 
 ## Database Diagram
 

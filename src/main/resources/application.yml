@@ -9,11 +9,13 @@ spring:
       name: sa
       password: sa
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+#    Postgres local connection ----->
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    username: postgres
+#    password: postgres
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: postgres
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
 

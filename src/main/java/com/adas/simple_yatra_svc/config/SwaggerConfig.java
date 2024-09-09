@@ -52,10 +52,11 @@ public class SwaggerConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/api-docs/**", "/swagger-ui/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll() //.authenticated() TODO: Remove after local testing
                 ).build();
     }
 }

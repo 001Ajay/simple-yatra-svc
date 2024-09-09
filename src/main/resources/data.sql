@@ -1,0 +1,1 @@
+insert into requester(name, employeeId, email, password, phone, office) values("Ajay", "E0001", "ajaydas5478@gmail.com", "test123", "9876543210", "Kolkata");
