@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -29,9 +30,36 @@ public class RequesterServiceImpl implements RequesterService {
     }
 
     @Override
+    public Optional<RequesterDto> findById(Long requesterId) {
+        Optional<Requester> aRequester = repository
+                .findById(requesterId);
+        return aRequester.map(requester -> mapper.entityToDto(requester));
+    }
+
+    @Override
     public RequesterDto save(RequesterDto dto) {
         Requester entity = mapper.dtoToEntity(dto);
         entity = repository.save(entity);
         return mapper.entityToDto(entity);
+    }
+
+    @Override
+    public RequesterDto update(Long requesterId, RequesterDto dto) {
+        Requester entity = mapper.dtoToEntity(dto);
+        entity.setRequesterId(requesterId);
+        entity = repository.save(entity);
+        return mapper.entityToDto(entity);
+    }
+
+    @Override
+    public void remove(Long requesterId) {
+        repository.deleteById(requesterId);
+    }
+
+    @Override
+    public List<RequesterDto> getAllRequestersByEmail(String email) {
+        return repository.findByEmail(email).stream()
+                .map(mapper::entityToDto)
+                .toList();
     }
 }

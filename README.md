@@ -12,11 +12,10 @@
 
 ### Requester Management
 
-- [x] `GET /requester/hello`: Test endpoint for Spring Security.
-- [ ] `GET /requester/{id}`: Retrieve requester details by id.
+- [x] `GET /requesters/hello`: Test endpoint for Spring Security.
+- [x] `GET /requesters/{id}`: Retrieve requester details by id.
 - [x] `GET /requesters`: Retrieve a list of all requesters.
-- [ ] `GET /requester?email={email}`: Retrieve requester details by email.
-- [x] `POST /requester`: Register a new requester.
-- [ ] `PATCH /requester`: Update requester details.
-- [ ] `PATCH /requester/password`: Update requester login password.
-- [ ] `DELETE /requester/{id}`: Delete a requester by id.
+- [x] `GET /requesters?email={email}`: Retrieve requester details by email.
+- [x] `POST /requesters`: Register a new requester.
+- [x] `PUT /requesters`: Update requester details.
+- [x] `DELETE /requesters/{id}`: Delete a requester by id.
